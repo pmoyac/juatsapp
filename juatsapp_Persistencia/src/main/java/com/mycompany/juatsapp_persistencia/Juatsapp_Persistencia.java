@@ -6,7 +6,10 @@ import Daos.UsuarioDAO;
 import Interfaces.IChatDAO;
 import Interfaces.IMensajesDAO;
 import Interfaces.IUsuariosDAO;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import objetos.Chat;
 import objetos.Mensaje;
 import objetos.Usuario;
 import org.bson.types.ObjectId;
@@ -22,12 +25,19 @@ public class Juatsapp_Persistencia{
        IMensajesDAO mdao = new MensajesDAO();
        IChatDAO cdao = new ChatDAO();
        
-//       Usuario user = new Usuario(new ObjectId("663d5677d081a8093892973c"),"1","87","mapache",new Date(124,0,1));
+     Usuario user = new Usuario(new ObjectId(),"34567890","hola","fem",new Date(14,5,17));
 //       
-//       udao.guardar(user);
+     udao.guardar(user);
 //        udao.actualizar(user);
 
 //        Mensaje mensaje= new Mensaje("Hola", new Date(), new ObjectId("663d5677d081a8093892973c")); 
 //        mdao.guardar(mensaje);
+
+        List<ObjectId> listam = new ArrayList();
+        listam.add(new ObjectId("663d65f71137370f6c31d5fa"));
+
+        Chat chat  = new Chat("chat de prueba", new Date(),new ObjectId("663d5677d081a8093892973c"),listam);
+        
+        cdao.guardar(chat);
     }
 }
