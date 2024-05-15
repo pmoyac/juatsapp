@@ -11,7 +11,7 @@ import org.bson.types.ObjectId;
 public class Chat {
     private ObjectId id;
     private String tituloChat;
-    private List<String> integrantes;
+    private List<ObjectId> integrantes;
     private Date fechaHora;
     private ObjectId autor;
     private List<ObjectId> mensajes;
@@ -19,7 +19,7 @@ public class Chat {
     public Chat() {
     }
 
-    public Chat(ObjectId id, String tituloChat, List<String> integrantes, Date fechaHora, ObjectId autor, List<ObjectId> mensajes) {
+    public Chat(ObjectId id, String tituloChat, List<ObjectId> integrantes, Date fechaHora, ObjectId autor, List<ObjectId> mensajes) {
         this.id = id;
         this.tituloChat = tituloChat;
         this.integrantes = integrantes;
@@ -28,7 +28,7 @@ public class Chat {
         this.mensajes = mensajes;
     }
 
-    public Chat(String tituloChat, List<String> integrantes, Date fechaHora, ObjectId autor, List<ObjectId> mensajes) {
+    public Chat(String tituloChat, List<ObjectId> integrantes, Date fechaHora, ObjectId autor, List<ObjectId> mensajes) {
         this.tituloChat = tituloChat;
         this.integrantes = integrantes;
         this.fechaHora = fechaHora;
@@ -42,6 +42,15 @@ public class Chat {
         this.autor = autor;
         this.mensajes = mensajes;
     }
+
+    public Chat(String tituloChat, List<ObjectId> integrantes, Date fechaHora, List<ObjectId> mensajes) {
+        this.tituloChat = tituloChat;
+        this.integrantes = integrantes;
+        this.fechaHora = fechaHora;
+        this.mensajes = mensajes;
+    }
+    
+    
     
 
     public ObjectId getId() {
@@ -60,11 +69,11 @@ public class Chat {
         this.tituloChat = tituloChat;
     }
 
-    public List<String> getIntegrantes() {
+    public List<ObjectId> getIntegrantes() {
         return integrantes;
     }
 
-    public void setIntegrantes(List<String> integrantes) {
+    public void setIntegrantes(List<ObjectId> integrantes) {
         this.integrantes = integrantes;
     }
 

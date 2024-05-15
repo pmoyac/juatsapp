@@ -1,8 +1,6 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package forms;
+
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -17,6 +15,15 @@ public class Registrarse extends javax.swing.JFrame {
         initComponents();
     }
 
+    private boolean validarCampos(){
+        if (txt_telefono.getText().isEmpty()||txt_direccion.getText().isEmpty()||txp_contra.getText().isEmpty()||dt_fechaN.getDate()==null) {            
+            JOptionPane.showMessageDialog(null, "Favor de llenar todos los campos",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+            return false;            
+        }
+        
+        return true;
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -43,6 +50,7 @@ public class Registrarse extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Registrarse");
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         jPanel1.setBackground(new java.awt.Color(102, 153, 255));
 
@@ -69,9 +77,9 @@ public class Registrarse extends javax.swing.JFrame {
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "otro", "masculino", "femenino", "robot", "ninja", " " }));
 
+        btn_aceptar.setText("Aceptar");
         btn_aceptar.setBackground(new java.awt.Color(102, 153, 255));
         btn_aceptar.setForeground(new java.awt.Color(0, 0, 0));
-        btn_aceptar.setText("Aceptar");
         btn_aceptar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_aceptarActionPerformed(evt);
@@ -177,7 +185,9 @@ public class Registrarse extends javax.swing.JFrame {
     }//GEN-LAST:event_txt_telefonoActionPerformed
 
     private void btn_aceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_aceptarActionPerformed
-        // TODO add your handling code here:
+        if (validarCampos()) {
+            JOptionPane.showMessageDialog(null, "Si", "Hola", JOptionPane.INFORMATION_MESSAGE);
+        }
     }//GEN-LAST:event_btn_aceptarActionPerformed
 
     private void btn_atrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_atrasActionPerformed
