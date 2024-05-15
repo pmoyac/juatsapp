@@ -13,9 +13,9 @@ import interfaces.IGestorUsuario;
  */
 public class Registrarse extends javax.swing.JFrame {
 
-    IGestorUsuario gu;  
+    IGestorUsuario gu;
     Usuario us = new Usuario();
-    
+
     /**
      * Creates new form Registrarse
      */
@@ -24,32 +24,35 @@ public class Registrarse extends javax.swing.JFrame {
         this.gu = new GestorUsuario();
     }
 
-    private boolean validarCampos(){
-        if (txt_telefono.getText().isEmpty()||txt_direccion.getText().isEmpty()||txp_contra.getText().isEmpty()||dt_fechaN.getDate()==null) {            
+    private boolean validarCampos() {
+        if (txt_telefono.getText().isEmpty() || txt_direccion.getText().isEmpty() || txp_contra.getText().isEmpty() || dt_fechaN.getDate() == null) {
             JOptionPane.showMessageDialog(null, "Favor de llenar todos los campos",
                     "Error", JOptionPane.ERROR_MESSAGE);
-            return false;            
+            return false;
         }
-        
+
         return true;
     }
-    
-    public void registrar(){
-        
+
+    public boolean registrar() {
+
         Date fecha = Date.from(this.dt_fechaN.getDate().atStartOfDay(ZoneId.systemDefault()).toInstant());
         us.setTelefono(this.txt_telefono.getText());
         us.setContrasena(this.txp_contra.getText());
+        us.setDireccion(this.txt_direccion.getText());
         us.setSexo(this.jComboBox1.getItemAt(this.jComboBox1.getSelectedIndex()));
         us.setFecha_nacimiento(fecha);
-        
+
         try {
-            gu.agregarUsuarioBo(us);
+            return gu.agregarUsuarioBo(us);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error al agregar el usuario",
                     "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
         }
 
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -212,11 +215,16 @@ public class Registrarse extends javax.swing.JFrame {
 
     private void btn_aceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_aceptarActionPerformed
         if (validarCampos()) {
-            registrar();
-            JOptionPane.showMessageDialog(null, "Usuario agregado", "Aviso", JOptionPane.INFORMATION_MESSAGE);
-            Chats ch = new Chats(us);
-            ch.setVisible(true);
-            dispose();
+            if (registrar()) {
+                JOptionPane.showMessageDialog(null, "Usuario agregado", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                Chats ch = new Chats(us);
+                ch.setVisible(true);
+                dispose();
+            }else{
+                JOptionPane.showMessageDialog(null, "El telefono ya esta registrado",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+            }
+
         }
     }//GEN-LAST:event_btn_aceptarActionPerformed
 
@@ -226,7 +234,6 @@ public class Registrarse extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_btn_atrasActionPerformed
 
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_aceptar;

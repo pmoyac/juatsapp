@@ -33,7 +33,7 @@ public class Juatsapp_Persistencia{
 //        Mensaje mensaje= new Mensaje("Hola", new Date(), new ObjectId("663d5677d081a8093892973c")); 
 //        mdao.guardar(mensaje);
 
-        udao.buscarTel("64413459809");
+//        udao.buscarTel("64413459809");
 //        List<ObjectId> listam = new ArrayList();
 //        listam.add(new ObjectId("663d65f71137370f6c31d5fa"));
 //        List<ObjectId> listai = new ArrayList();
@@ -43,5 +43,11 @@ public class Juatsapp_Persistencia{
 //        Chat chat  = new Chat("chat de prueba",listai, new Date(),listam);
 //        
 //        cdao.guardar(chat);
+
+//            List<Chat> sss;
+//            
+//            sss = cdao.buscarporID(new ObjectId("664469834251b257fb6eb629"));
+//            System.out.println(sss.get(0).toString());
+            
     }
 }

@@ -5,6 +5,7 @@ import Daos.UsuarioDAO;
 import Interfaces.IUsuariosDAO;
 import javax.swing.JOptionPane;
 import objetos.Usuario;
+import org.bson.types.ObjectId;
 import org.mindrot.jbcrypt.BCrypt;
 
 /**
@@ -18,12 +19,17 @@ public class GestorUsuario implements IGestorUsuario {
     @Override
     public boolean agregarUsuarioBo(Usuario usuario) throws Exception {
         try {
-            String contraE = BCrypt.hashpw(usuario.getContrasena(), BCrypt.gensalt());
-            usuario.setContrasena(contraE);
 
-            udao.guardar(usuario);
+            if (udao.buscarTel(usuario.getTelefono()) == null) {
+                String contraE = BCrypt.hashpw(usuario.getContrasena(), BCrypt.gensalt());
+                usuario.setContrasena(contraE);
 
-            return true;
+                udao.guardar(usuario);
+                return true;
+            } else {
+                return false;
+            }
+
         } catch (Exception e) {
             return false;
         }
@@ -31,8 +37,13 @@ public class GestorUsuario implements IGestorUsuario {
     }
 
     @Override
-    public boolean editarUsuarioBo(Usuario usuario) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public Usuario editarUsuarioBo(Usuario usuario) throws Exception {
+        try {
+            udao.actualizar(usuario);
+            return usuario;
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     @Override
@@ -46,11 +57,28 @@ public class GestorUsuario implements IGestorUsuario {
                 return us;
             } else {
                 return null;
-                
+
             }
         } catch (Exception e) {
             return null;
         }
     }
+
+    @Override
+    public ObjectId buscar(String telefono) throws Exception {
+        try {
+            Usuario user = udao.buscarTel(telefono);
+            if(user != null){
+                return user.getId();
+            }else{
+                return null;  
+            }
+        } catch (Exception e) {
+            return null;
+        }
+        
+    }
+    
+    
 
 }

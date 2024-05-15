@@ -1,14 +1,23 @@
 package forms;
 
+import bo.GestorUsuario;
+import interfaces.IGestorUsuario;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import objetos.Usuario;
 
 /**
  *
  * @author Pedro
  */
-public class Perfil extends javax.swing.JFrame {
+public final class Perfil extends javax.swing.JFrame {
 
     Usuario us;
+    IGestorUsuario gu;
     
     /**
      * Creates new form Registrarse
@@ -17,6 +26,17 @@ public class Perfil extends javax.swing.JFrame {
     public Perfil(Usuario us) {
         initComponents();
         this.us = us;
+        this.gu = new GestorUsuario();
+        llenarCampos();
+    }
+    
+    public void llenarCampos(){
+        this.txt_telefono.setText(us.getTelefono());
+        this.txt_direccion.setText(us.getDireccion());
+        
+        Instant instant = us.getFecha_nacimiento().toInstant();
+        LocalDate localDate = instant.atZone(ZoneId.systemDefault()).toLocalDate();
+        this.dt_fechaN.setDate(localDate);                
     }
 
     /**
@@ -69,6 +89,8 @@ public class Perfil extends javax.swing.JFrame {
                 txt_telefonoActionPerformed(evt);
             }
         });
+
+        txp_contra.setEditable(false);
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "otro", "masculino", "femenino", "robot", "ninja", " " }));
 
@@ -193,7 +215,18 @@ public class Perfil extends javax.swing.JFrame {
     }//GEN-LAST:event_txt_telefonoActionPerformed
 
     private void btn_actualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_actualizarActionPerformed
-        // TODO add your handling code here:
+        try {
+            // TODO add your handling code here:
+            
+            this.us = gu.editarUsuarioBo(us);
+            
+            JOptionPane.showMessageDialog(null, "Usuario actualizado",
+                        "Aviso", JOptionPane.INFORMATION_MESSAGE);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Error al actualizar usuario",
+                        "Error", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(Perfil.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btn_actualizarActionPerformed
 
     private void btn_CancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_CancelarActionPerformed

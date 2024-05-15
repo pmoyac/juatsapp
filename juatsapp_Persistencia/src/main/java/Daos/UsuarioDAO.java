@@ -46,7 +46,7 @@ public class UsuarioDAO implements IUsuariosDAO {
 
         try {
             Bson idQuery = Filters.eq("_id", u.getId());
-            Bson updates = Updates.combine(set("telefono", u.getTelefono()), set("sexo", u.getSexo()), set("fecha_nacimiento", u.getFecha_nacimiento()));
+            Bson updates = Updates.combine(set("telefono", u.getTelefono()),set("direccion", u.getDireccion()), set("sexo", u.getSexo()), set("fecha_nacimiento", u.getFecha_nacimiento()));
             UpdateResult result = this.getCollection().updateMany(idQuery, updates);
             System.out.println(result.getModifiedCount());
             return result.getModifiedCount() == 1;
@@ -68,14 +68,14 @@ public class UsuarioDAO implements IUsuariosDAO {
             MongoCursor<Usuario> cursor = this.getCollection().find(query).iterator();
 
             Usuario usuario = cursor.next();
-
+            return usuario;
 //        Usuario user= new Usuario();
 //        user.setId(usuario.getObjectId("_id"));
 //        user.setTelefono(usuario.getString("telefono"));
 //        user.setContrasena(usuario.getString("contrasena"));
 //        user.setSexo(usuario.getString("sexo"));
 //        user.setFecha_nacimiento(usuario.getDate("fecha_nacimiento"));           
-            return usuario;
+            
         } catch (Exception e) {
             return null;
         }

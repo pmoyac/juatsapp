@@ -1,7 +1,17 @@
-
 package forms;
 
+import bo.GestorChat;
 import objetos.Usuario;
+import bo.GestorUsuario;
+import interfaces.IGestorChats;
+import interfaces.IGestorUsuario;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import objetos.Chat;
+import org.bson.types.ObjectId;
 
 /**
  *
@@ -10,12 +20,42 @@ import objetos.Usuario;
 public class NuevoChat extends javax.swing.JFrame {
 
     Usuario us;
+    IGestorUsuario gu;
+    IGestorChats gc;
+
     /**
      * Creates new form NuevoChat
+     *
+     * @param us
      */
     public NuevoChat(Usuario us) {
         initComponents();
         this.us = us;
+        this.gu = new GestorUsuario();
+        this.gc = new GestorChat();
+    }
+
+    public boolean crearChat() throws Exception {
+        Chat chat = new Chat();
+
+        chat.setTituloChat(this.txt_titulo.getText());
+        chat.setAutor(us.getId());
+        ObjectId con = gu.buscar(this.txt_contacto.getText());
+        if (con == null) {
+            JOptionPane.showMessageDialog(null, "Contacto no existe",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        } else {
+            List<ObjectId> part = new ArrayList<>();
+            part.add(us.getId());
+            part.add(con);
+            chat.setIntegrantes(part);
+            
+            gc.agregarChat(chat);
+            
+            return true;
+        }
+
     }
 
     /**
@@ -59,6 +99,11 @@ public class NuevoChat extends javax.swing.JFrame {
         jButton2.setBackground(new java.awt.Color(102, 153, 255));
         jButton2.setForeground(new java.awt.Color(0, 0, 0));
         jButton2.setText("Crear Chat");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -124,10 +169,27 @@ public class NuevoChat extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        Chats chat = new Chats(us);
-        chat.setVisible(true);
+        Menu menu = new Menu();
+        menu.setVisible(true);
         dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        try {
+            if (this.crearChat()) {
+                JOptionPane.showMessageDialog(null, "Chat creado",
+                    "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                Chats chat = new Chats(us);
+                chat.setVisible(true);
+                dispose();
+            }else{
+                JOptionPane.showMessageDialog(null, "Chat no creado",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(NuevoChat.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

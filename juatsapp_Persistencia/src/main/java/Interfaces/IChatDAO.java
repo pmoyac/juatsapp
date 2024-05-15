@@ -4,7 +4,9 @@
  */
 package Interfaces;
 
+import java.util.List;
 import objetos.Chat;
+import org.bson.types.ObjectId;
 
 /**
  *
@@ -17,5 +19,5 @@ public interface IChatDAO {
     public boolean actualizar(Chat chat);
     
    
-    public Chat buscarporID(long id);
+    public List<Chat> buscarporID(ObjectId id);
 }

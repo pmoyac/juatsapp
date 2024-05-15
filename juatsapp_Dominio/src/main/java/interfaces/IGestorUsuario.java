@@ -1,6 +1,7 @@
 package interfaces;
 
 import objetos.Usuario;
+import org.bson.types.ObjectId;
 
 /**
  *
@@ -10,7 +11,9 @@ public interface IGestorUsuario {
     
     public boolean agregarUsuarioBo(Usuario usuario) throws Exception;
     
-    public boolean editarUsuarioBo(Usuario usuario) throws  Exception;
+    public Usuario editarUsuarioBo(Usuario usuario) throws  Exception;
     
     public Usuario login(String telefono, String contra) throws Exception;
+    
+    public ObjectId buscar(String telefono) throws Exception;
 }

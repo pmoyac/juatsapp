@@ -7,7 +7,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import objetos.Chat;
 import objetos.Mensaje;
+import objetos.Usuario;
 /**
  *
  * @author Pedro
@@ -16,14 +18,16 @@ public class Mensajes extends javax.swing.JFrame {
 
     private final JList<String> messageList;
     private final DefaultListModel<String> messageListModel;
-    
+    Usuario us;
     /**
      * Creates new form Chats
      */
-    public Mensajes() {
+    public Mensajes(Usuario us, Chat chat) {
         initComponents();
-        
+        this.us= us;
+        this.lbl_titulo.setText(chat.getTituloChat());
         jPanel1.setLayout(new BorderLayout());
+        this.jPanel1.setPreferredSize(new Dimension(200, 250));
         // Inicializa el modelo de la lista de mensajes
         messageListModel = new DefaultListModel<>();
 
@@ -33,8 +37,11 @@ public class Mensajes extends javax.swing.JFrame {
         // Agrega la lista de mensajes a un JScrollPane para permitir desplazamiento
         JScrollPane scrollPane = new JScrollPane(messageList);
         this.jPanel1.add(scrollPane, BorderLayout.CENTER);
+        
+        System.out.println(chat.getTituloChat());
        
     }
+
     
     
     public void addMessage() {
@@ -49,7 +56,7 @@ public class Mensajes extends javax.swing.JFrame {
         
 
         // Construye el mensaje con la fecha, autor y texto del mensaje
-        String formattedMessage = "[" + formattedDate + "] " + "msj.getAutor() " + ": " + msj.getMensaje();
+        String formattedMessage = "[" + formattedDate + "] " + "" + ": " + msj.getMensaje();
 
         // Agrega el mensaje al modelo de la lista
         messageListModel.addElement(formattedMessage);
@@ -60,7 +67,9 @@ public class Mensajes extends javax.swing.JFrame {
         // Crea y muestra el formulario
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Mensajes().setVisible(true);
+                Chat c = new Chat();
+                Usuario u = new Usuario();
+                new Mensajes(u,c).setVisible(true);
             }
         });
     }
@@ -79,8 +88,8 @@ public class Mensajes extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         txt_mensaje = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        txt_titulo = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
+        lbl_titulo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -100,12 +109,6 @@ public class Mensajes extends javax.swing.JFrame {
         jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("Chat");
 
-        txt_titulo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txt_tituloActionPerformed(evt);
-            }
-        });
-
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setForeground(new java.awt.Color(0, 0, 0));
 
@@ -120,6 +123,8 @@ public class Mensajes extends javax.swing.JFrame {
             .addGap(0, 248, Short.MAX_VALUE)
         );
 
+        lbl_titulo.setForeground(new java.awt.Color(0, 0, 0));
+
         javax.swing.GroupLayout jp_pLayout = new javax.swing.GroupLayout(jp_p);
         jp_p.setLayout(jp_pLayout);
         jp_pLayout.setHorizontalGroup(
@@ -132,7 +137,7 @@ public class Mensajes extends javax.swing.JFrame {
                     .addGroup(jp_pLayout.createSequentialGroup()
                         .addGap(23, 23, 23)
                         .addGroup(jp_pLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txt_titulo, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lbl_titulo)
                             .addComponent(jLabel2))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jp_pLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -153,7 +158,7 @@ public class Mensajes extends javax.swing.JFrame {
                         .addGap(26, 26, 26)
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txt_titulo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(lbl_titulo))
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jp_pLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -176,10 +181,6 @@ public class Mensajes extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txt_tituloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_tituloActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txt_tituloActionPerformed
-
     private void btn_enviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_enviarActionPerformed
         this.addMessage();
         this.jPanel1.repaint();
@@ -193,7 +194,7 @@ public class Mensajes extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jp_p;
+    private javax.swing.JLabel lbl_titulo;
     private javax.swing.JTextField txt_mensaje;
-    private javax.swing.JTextField txt_titulo;
     // End of variables declaration//GEN-END:variables
 }

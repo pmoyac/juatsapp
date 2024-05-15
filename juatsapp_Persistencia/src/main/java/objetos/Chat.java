@@ -103,9 +103,10 @@ public class Chat {
 
     @Override
     public String toString() {
-        return "Chat{" + "id=" + id + "/n" + 
-                ", tituloChat=" + tituloChat + ", integrantes=" + integrantes + ", fechaHora=" + fechaHora + ", autor=" + autor + ", mensajes=" + mensajes + '}';
+        return  "Chat: "+tituloChat;
     }
+
+    
     
     
 }

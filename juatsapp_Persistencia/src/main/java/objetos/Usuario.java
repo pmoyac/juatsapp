@@ -8,9 +8,11 @@ import org.bson.types.ObjectId;
  * @author Pedro
  */
 public class Usuario {
+
     private ObjectId id;
     private String telefono;
     private String contrasena;
+    private String direccion;
     private String sexo;
     private Date fecha_nacimiento;
 
@@ -25,9 +27,10 @@ public class Usuario {
         this.fecha_nacimiento = fecha_nacimiento;
     }
 
-    public Usuario(String telefono, String contrasena, String sexo, Date fecha_nacimiento) {
+    public Usuario(String telefono, String contrasena, String direccion, String sexo, Date fecha_nacimiento) {
         this.telefono = telefono;
         this.contrasena = contrasena;
+        this.direccion = direccion;
         this.sexo = sexo;
         this.fecha_nacimiento = fecha_nacimiento;
     }
@@ -37,7 +40,6 @@ public class Usuario {
         this.contrasena = contrasena;
         this.sexo = sexo;
     }
-    
 
     public ObjectId getId() {
         return id;
@@ -63,6 +65,14 @@ public class Usuario {
         this.contrasena = contrasena;
     }
 
+    public String getDireccion() {
+        return direccion;
+    }
+
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
+    }
+
     public String getSexo() {
         return sexo;
     }
@@ -81,8 +91,7 @@ public class Usuario {
 
     @Override
     public String toString() {
-        return "Usuario{" + "id=" + id + ", telefono=" + telefono + ", contrasena=" + contrasena + ", sexo=" + sexo + ", fecha_nacimiento=" + fecha_nacimiento + '}';
+        return "Usuario{" + "id=" + id + ", telefono=" + telefono + ", contrasena=" + contrasena + ", direccion=" + direccion + ", sexo=" + sexo + ", fecha_nacimiento=" + fecha_nacimiento + '}';
     }
-    
-    
+
 }

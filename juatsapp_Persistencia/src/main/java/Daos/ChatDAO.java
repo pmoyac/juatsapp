@@ -1,22 +1,31 @@
 package Daos;
 
 import Interfaces.IChatDAO;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
 import objetos.Chat;
+import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.model.Filters;
+import org.bson.Document;
+import com.mongodb.client.FindIterable;
+import com.mongodb.client.MongoCursor;
+import java.util.ArrayList;
+import java.util.List;
+import org.bson.conversions.Bson;
+import org.bson.types.ObjectId;
 
 /**
  *
  * @author Pedro
  */
-public class ChatDAO implements IChatDAO{
+public class ChatDAO implements IChatDAO {
 
-    private MongoCollection getCollection(){
+    private MongoCollection getCollection() {
         ConexionBD conexion = new ConexionBD();
         MongoDatabase database = conexion.crearConexion();
         MongoCollection collection = database.getCollection("chats", Chat.class);
         return collection;
     }
+
     @Override
     public boolean guardar(Chat chat) {
         try {
@@ -33,8 +42,20 @@ public class ChatDAO implements IChatDAO{
     }
 
     @Override
-    public Chat buscarporID(long id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public List<Chat> buscarporID(ObjectId id) {
+        List<Chat> encontrados = new ArrayList<>();
+
+        Bson filter = Filters.in("integrantes", id);
+        FindIterable<Chat> chats = this.getCollection().find(filter);
+
+        try (MongoCursor<Chat> cursor = chats.iterator()) {
+            while (cursor.hasNext()) {
+                Chat chatn = cursor.next();
+                encontrados.add(chatn);
+            }
+        }
+
+        return encontrados;
     }
-    
+
 }
