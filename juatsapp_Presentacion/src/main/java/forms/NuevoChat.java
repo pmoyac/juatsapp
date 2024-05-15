@@ -1,8 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package forms;
+
+import objetos.Usuario;
 
 /**
  *
@@ -10,11 +9,13 @@ package forms;
  */
 public class NuevoChat extends javax.swing.JFrame {
 
+    Usuario us;
     /**
      * Creates new form NuevoChat
      */
-    public NuevoChat() {
+    public NuevoChat(Usuario us) {
         initComponents();
+        this.us = us;
     }
 
     /**
@@ -123,7 +124,7 @@ public class NuevoChat extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        Chats chat = new Chats();
+        Chats chat = new Chats(us);
         chat.setVisible(true);
         dispose();
     }//GEN-LAST:event_jButton1ActionPerformed

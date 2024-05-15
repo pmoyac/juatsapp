@@ -20,7 +20,7 @@ import org.bson.types.ObjectId;
  */
 public class Juatsapp_Persistencia{
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
        IUsuariosDAO udao = new UsuarioDAO();
        IMensajesDAO mdao = new MensajesDAO();
        IChatDAO cdao = new ChatDAO();
@@ -33,15 +33,15 @@ public class Juatsapp_Persistencia{
 //        Mensaje mensaje= new Mensaje("Hola", new Date(), new ObjectId("663d5677d081a8093892973c")); 
 //        mdao.guardar(mensaje);
 
-        
-        List<ObjectId> listam = new ArrayList();
-        listam.add(new ObjectId("663d65f71137370f6c31d5fa"));
-        List<ObjectId> listai = new ArrayList();
-        listai.add(new ObjectId("663d5677d081a8093892973c"));
-        listai.add(new ObjectId("663d86988c9f34571fe77f8c"));                
-
-        Chat chat  = new Chat("chat de prueba",listai, new Date(),listam);
-        
-        cdao.guardar(chat);
+        udao.buscarTel("64413459809");
+//        List<ObjectId> listam = new ArrayList();
+//        listam.add(new ObjectId("663d65f71137370f6c31d5fa"));
+//        List<ObjectId> listai = new ArrayList();
+//        listai.add(new ObjectId("663d5677d081a8093892973c"));
+//        listai.add(new ObjectId("663d86988c9f34571fe77f8c"));                
+//
+//        Chat chat  = new Chat("chat de prueba",listai, new Date(),listam);
+//        
+//        cdao.guardar(chat);
     }
 }

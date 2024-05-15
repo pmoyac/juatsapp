@@ -10,21 +10,33 @@ public interface IUsuariosDAO {
     /**
      * 
      * @param usuario
-     * @return 
+     * @return usuario guardado
+     * @throws java.lang.Exception
      */
-    public boolean guardar(Usuario usuario);
+    public boolean guardar(Usuario usuario) throws Exception;
     
     /**
      * 
      * @param usuario
-     * @return 
+     * @return usuario actualizado
+     * @throws java.lang.Exception
      */
-    public boolean actualizar(Usuario usuario);
+    public boolean actualizar(Usuario usuario) throws Exception;
     
     /**
      * 
      * @param id
-     * @return 
+     * @return usuario encontrado
+     * @throws java.lang.Exception
      */
-    public Usuario buscarporID(long id);
+    public Usuario buscarporID(long id) throws Exception;
+    
+    /**
+     * 
+     * @param telefono
+     
+     * @return si el usuario logro iniciar sesion
+     * @throws java.lang.Exception
+     */
+    public Usuario buscarTel(String telefono) throws Exception;
 }

@@ -1,6 +1,11 @@
 package forms;
 
+import java.time.ZoneId;
+import java.util.Date;
 import javax.swing.JOptionPane;
+import objetos.Usuario;
+import bo.GestorUsuario;
+import interfaces.IGestorUsuario;
 
 /**
  *
@@ -8,11 +13,15 @@ import javax.swing.JOptionPane;
  */
 public class Registrarse extends javax.swing.JFrame {
 
+    IGestorUsuario gu;  
+    Usuario us = new Usuario();
+    
     /**
      * Creates new form Registrarse
      */
     public Registrarse() {
         initComponents();
+        this.gu = new GestorUsuario();
     }
 
     private boolean validarCampos(){
@@ -23,6 +32,23 @@ public class Registrarse extends javax.swing.JFrame {
         }
         
         return true;
+    }
+    
+    public void registrar(){
+        
+        Date fecha = Date.from(this.dt_fechaN.getDate().atStartOfDay(ZoneId.systemDefault()).toInstant());
+        us.setTelefono(this.txt_telefono.getText());
+        us.setContrasena(this.txp_contra.getText());
+        us.setSexo(this.jComboBox1.getItemAt(this.jComboBox1.getSelectedIndex()));
+        us.setFecha_nacimiento(fecha);
+        
+        try {
+            gu.agregarUsuarioBo(us);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al agregar el usuario",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -186,7 +212,11 @@ public class Registrarse extends javax.swing.JFrame {
 
     private void btn_aceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_aceptarActionPerformed
         if (validarCampos()) {
-            JOptionPane.showMessageDialog(null, "Si", "Hola", JOptionPane.INFORMATION_MESSAGE);
+            registrar();
+            JOptionPane.showMessageDialog(null, "Usuario agregado", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+            Chats ch = new Chats(us);
+            ch.setVisible(true);
+            dispose();
         }
     }//GEN-LAST:event_btn_aceptarActionPerformed
 

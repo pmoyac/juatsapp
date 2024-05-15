@@ -4,17 +4,44 @@
  */
 package forms;
 
+import bo.GestorUsuario;
+import interfaces.IGestorUsuario;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import objetos.Usuario;
+
 /**
  *
  * @author Pedro
  */
 public class IniciarSesion extends javax.swing.JFrame {
 
+    IGestorUsuario gu;
     /**
      * Creates new form Registrarse
      */
     public IniciarSesion() {
         initComponents();
+        this.gu = new GestorUsuario();
+    }
+    
+    public Usuario login() throws Exception{
+        try {
+            Usuario user = gu.login(this.txt_telefono.getText(), this.txp_contra.getText());
+
+            if (user == null) {
+                JOptionPane.showMessageDialog(null, "Teléfono o contraseña incorrectos",
+                        "Error", JOptionPane.ERROR_MESSAGE);
+                return null;
+            } else {
+                return user;
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al iniciar",
+                        "Error", JOptionPane.ERROR_MESSAGE);
+            return null;
+        }
     }
 
     /**
@@ -138,7 +165,16 @@ public class IniciarSesion extends javax.swing.JFrame {
     }//GEN-LAST:event_txt_telefonoActionPerformed
 
     private void btn_iniciarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_iniciarSesionActionPerformed
-        // TODO add your handling code here:
+        try {
+            // TODO add your handling code here:
+            Usuario user = this.login();
+            Chats ch = new Chats(user);
+            ch.setVisible(true);
+            dispose();
+        } catch (Exception ex) {
+            Logger.getLogger(IniciarSesion.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }//GEN-LAST:event_btn_iniciarSesionActionPerformed
 
     private void btn_atrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_atrasActionPerformed

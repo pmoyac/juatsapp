@@ -1,8 +1,6 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package forms;
+
+import objetos.Usuario;
 
 /**
  *
@@ -10,11 +8,15 @@ package forms;
  */
 public class Perfil extends javax.swing.JFrame {
 
+    Usuario us;
+    
     /**
      * Creates new form Registrarse
+     * @param us
      */
-    public Perfil() {
+    public Perfil(Usuario us) {
         initComponents();
+        this.us = us;
     }
 
     /**
@@ -199,7 +201,7 @@ public class Perfil extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_CancelarActionPerformed
 
     private void btn_atrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_atrasActionPerformed
-        Chats chat = new Chats();
+        Chats chat = new Chats(us);
         chat.setVisible(true);
         dispose();
     }//GEN-LAST:event_btn_atrasActionPerformed
