@@ -6,6 +6,7 @@ import bo.GestorUsuario;
 import interfaces.IGestorChats;
 import interfaces.IGestorUsuario;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -50,6 +51,10 @@ public class NuevoChat extends javax.swing.JFrame {
             part.add(us.getId());
             part.add(con);
             chat.setIntegrantes(part);
+            
+            List<ObjectId> msjs = new ArrayList<>();
+            chat.setMensajes(msjs);
+            chat.setFechaHora(new Date());
             
             gc.agregarChat(chat);
             
@@ -169,9 +174,13 @@ public class NuevoChat extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        Menu menu = new Menu();
-        menu.setVisible(true);
-        dispose();
+        try {
+            Chats chat = new Chats(us);
+            chat.setVisible(true);
+            dispose();
+        } catch (Exception ex) {
+            Logger.getLogger(NuevoChat.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed

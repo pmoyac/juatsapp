@@ -2,6 +2,7 @@ package objetos;
 
 import java.util.Date;
 import java.util.List;
+import org.bson.Document;
 import org.bson.types.ObjectId;
 
 /**
@@ -15,6 +16,16 @@ public class Chat {
     private Date fechaHora;
     private ObjectId autor;
     private List<ObjectId> mensajes;
+    
+    public Document toDocument() {
+        Document document = new Document();
+        document.append("autor", autor);
+        document.append("integrantes", integrantes);
+        document.append("mensajes", mensajes);
+        document.append("tituloChat", tituloChat);
+        document.append("fechaHora", fechaHora);
+        return document;
+    }
 
     public Chat() {
     }

@@ -1,5 +1,6 @@
 package objetos;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import org.bson.types.ObjectId;
 
@@ -12,6 +13,7 @@ public class Mensaje {
     private String mensaje;
     private Date fechaHora;
     private ObjectId autor;
+    private String telefono;
 
     public Mensaje() {
     }
@@ -28,6 +30,15 @@ public class Mensaje {
         this.fechaHora = fechaHora;
         this.autor = autor;
     }
+
+    public Mensaje(String mensaje, Date fechaHora, ObjectId autor, String telefono) {
+        this.mensaje = mensaje;
+        this.fechaHora = fechaHora;
+        this.autor = autor;
+        this.telefono = telefono;
+    }
+    
+    
 
     public ObjectId getId() {
         return id;
@@ -53,6 +64,15 @@ public class Mensaje {
         this.fechaHora = fechaHora;
     }
 
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
+    }
+    
+
     public ObjectId getAutor() {
         return autor;
     }
@@ -63,7 +83,10 @@ public class Mensaje {
 
     @Override
     public String toString() {
-        return "Mensaje{" + "id=" + id + ", mensaje=" + mensaje + ", fechaHora=" + fechaHora + ", autor=" + autor + '}';
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        String formattedDate = dateFormat.format(this.fechaHora);
+        
+        return "[" + formattedDate + "] "+telefono+": "+mensaje;
     }
     
     

@@ -4,12 +4,15 @@
  */
 package forms;
 
-import Daos.ChatDAO;
 import Interfaces.IChatDAO;
+import bo.GestorChat;
 import com.mongodb.client.FindIterable;
+import interfaces.IGestorChats;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
@@ -26,21 +29,23 @@ import objetos.Usuario;
 public class Chats extends javax.swing.JFrame {
 
     Usuario us;
+    private IGestorChats gc;
 //    private JList<String> chatList;
     private DefaultListModel<String> chatListModel;
-    IChatDAO chatdao;
+   
     private JList<Chat> chatList;
 
     /**
      * Creates new form Chats
      *
      * @param us
+     * @throws java.lang.Exception
      */
-    public Chats(Usuario us) {
+    public Chats(Usuario us) throws Exception {
         initComponents();
         this.us = us;
         this.jLabel1.setText(us.getTelefono());
-        chatdao = new ChatDAO();
+        this.gc = new GestorChat();
 
         // Configurar el JPanel
         
@@ -49,7 +54,7 @@ public class Chats extends javax.swing.JFrame {
 
         // Crear la lista de chats
         DefaultListModel<Chat> listModel = new DefaultListModel<>();
-        for (Chat chat : chatdao.buscarporID(us.getId())) {
+        for (Chat chat : gc.buscarChatsUsuario(us)) {
             listModel.addElement(chat);
         }
         chatList = new JList<>(listModel);
@@ -63,17 +68,7 @@ public class Chats extends javax.swing.JFrame {
 
     }
 
-    private Chat getChatDocument(int selectedIndex) {
-        List<Chat> chats = chatdao.buscarporID(us.getId());
-        int index = 0;
-        for (Chat chat : chats) {
-            if (index == selectedIndex) {
-                return chat;
-            }
-            index++;
-        }
-        return null;
-    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -173,21 +168,20 @@ public class Chats extends javax.swing.JFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btn_crearChat)
-                        .addGap(18, 18, 18)
-                        .addComponent(bnt_perfil)
-                        .addGap(18, 18, 18)
-                        .addComponent(btn_salir))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap()
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btn_aceptar)
                 .addContainerGap(12, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btn_crearChat)
+                .addGap(18, 18, 18)
+                .addComponent(bnt_perfil)
+                .addGap(18, 18, 18)
+                .addComponent(btn_salir)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -223,9 +217,13 @@ public class Chats extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_crearChatActionPerformed
 
     private void btn_aceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_aceptarActionPerformed
-        Mensajes msj = new Mensajes(us,chatList.getSelectedValue());
-        msj.setVisible(true);
-        dispose();
+        try {
+            Mensajes msj = new Mensajes(us,chatList.getSelectedValue());
+            msj.setVisible(true);
+            dispose();
+        } catch (Exception ex) {
+            Logger.getLogger(Chats.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btn_aceptarActionPerformed
 
     public static void main(String args[]) {
@@ -233,7 +231,11 @@ public class Chats extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 Usuario us = new Usuario();
-                new Chats(us).setVisible(true);
+                try {
+                    new Chats(us).setVisible(true);
+                } catch (Exception ex) {
+                    Logger.getLogger(Chats.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }

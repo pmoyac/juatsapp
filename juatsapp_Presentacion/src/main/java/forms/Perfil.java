@@ -234,9 +234,13 @@ public final class Perfil extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_CancelarActionPerformed
 
     private void btn_atrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_atrasActionPerformed
-        Chats chat = new Chats(us);
-        chat.setVisible(true);
-        dispose();
+        try {
+            Chats chat = new Chats(us);
+            chat.setVisible(true);
+            dispose();
+        } catch (Exception ex) {
+            Logger.getLogger(Perfil.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btn_atrasActionPerformed
 
     

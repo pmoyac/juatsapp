@@ -6,6 +6,8 @@ import javax.swing.JOptionPane;
 import objetos.Usuario;
 import bo.GestorUsuario;
 import interfaces.IGestorUsuario;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -217,8 +219,14 @@ public class Registrarse extends javax.swing.JFrame {
         if (validarCampos()) {
             if (registrar()) {
                 JOptionPane.showMessageDialog(null, "Usuario agregado", "Aviso", JOptionPane.INFORMATION_MESSAGE);
-                Chats ch = new Chats(us);
-                ch.setVisible(true);
+                Chats ch;
+                try {
+                    ch = new Chats(us);
+                    ch.setVisible(true);
+                } catch (Exception ex) {
+                    Logger.getLogger(Registrarse.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
                 dispose();
             }else{
                 JOptionPane.showMessageDialog(null, "El telefono ya esta registrado",

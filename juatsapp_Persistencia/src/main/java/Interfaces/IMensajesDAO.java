@@ -1,6 +1,9 @@
 package Interfaces;
 
+import java.util.List;
+import objetos.Chat;
 import objetos.Mensaje;
+import org.bson.types.ObjectId;
 
 /**
  *
@@ -11,7 +14,7 @@ public interface IMensajesDAO {
     
    
     public boolean actualizar(Mensaje mensaje);
+         
     
-   
-    public Mensaje buscarporID(long id);
+    public List<Mensaje> buscarMensajes(Chat chat);
 }
