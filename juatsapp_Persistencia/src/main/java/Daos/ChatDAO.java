@@ -8,8 +8,10 @@ import com.mongodb.client.model.Filters;
 import org.bson.Document;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCursor;
+import static com.mongodb.client.model.Filters.eq;
 import com.mongodb.client.model.Updates;
 import static com.mongodb.client.model.Updates.set;
+import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
 import java.util.ArrayList;
 import java.util.List;
@@ -69,38 +71,15 @@ public class ChatDAO implements IChatDAO {
 
         return encontrados;
     }
-    
-//    @Override
-//    public List<Mensaje> buscarMensajes(ObjectId id) {
-//        List<Mensaje> messages = new ArrayList<>();
-//
-//        
-//        if (chat != null) {
-//            // Obtener los IDs de los mensajes asociados al chat
-//            List<ObjectId> messageIds = (List<ObjectId>) chat.get("mensajes");
-//            if (messageIds != null && !messageIds.isEmpty()) {
-//                // Buscar los documentos de mensajes por sus IDs
-//                messages = messageCollection.find(Filters.in("_id", messageIds)).into(new ArrayList<>());
-//            }
-//        }
-//
-//        return messages;
-//        
-//        
-//        
-////          List<Mensaje> encontrados = new ArrayList<>();
-////
-////        Bson filter = Filters.in("mensajes", id);
-////        FindIterable<Mensaje> chats = this.getCollection().find(filter);
-////
-////        try (MongoCursor<Mensaje> cursor = chats.iterator()) {
-////            while (cursor.hasNext()) {
-////                Mensaje chatn = cursor.next();
-////                encontrados.add(chatn);
-////            }
-////        }
-////
-////        return encontrados;
-//    }
+
+    @Override
+    public boolean eliminarChat(Chat c) {
+        try {
+            DeleteResult result = this.getCollection().deleteOne(eq("_id",c.getId()));
+            return result.getDeletedCount() == 1;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 
 }

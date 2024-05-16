@@ -33,8 +33,7 @@ public interface IUsuariosDAO {
     
     /**
      * 
-     * @param telefono
-     
+     * @param telefono     
      * @return si el usuario logro iniciar sesion
      * @throws java.lang.Exception
      */

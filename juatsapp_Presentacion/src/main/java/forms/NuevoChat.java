@@ -36,6 +36,19 @@ public class NuevoChat extends javax.swing.JFrame {
         this.gc = new GestorChat();
     }
 
+    public boolean validar() {
+        if (this.txt_titulo.getText().isEmpty() || this.txt_contacto.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Llene los campos",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        if (!this.txt_contacto.getText().matches("^[0-9]{10}$")) {
+            JOptionPane.showMessageDialog(null, "Teléfono solo acepta numeros de 10 caracteres",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        return true;
+    }
+
     public boolean crearChat() throws Exception {
         Chat chat = new Chat();
 
@@ -51,13 +64,13 @@ public class NuevoChat extends javax.swing.JFrame {
             part.add(us.getId());
             part.add(con);
             chat.setIntegrantes(part);
-            
+
             List<ObjectId> msjs = new ArrayList<>();
             chat.setMensajes(msjs);
             chat.setFechaHora(new Date());
-            
+
             gc.agregarChat(chat);
-            
+
             return true;
         }
 
@@ -185,18 +198,20 @@ public class NuevoChat extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         try {
-            if (this.crearChat()) {
-                JOptionPane.showMessageDialog(null, "Chat creado",
-                    "Aviso", JOptionPane.INFORMATION_MESSAGE);
-                Chats chat = new Chats(us);
-                chat.setVisible(true);
-                dispose();
-            }else{
-                JOptionPane.showMessageDialog(null, "Chat no creado",
-                    "Error", JOptionPane.ERROR_MESSAGE);
+            if (validar()) {
+                if (this.crearChat()) {
+                    JOptionPane.showMessageDialog(null, "Chat creado",
+                            "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                    Chats chat = new Chats(us);
+                    chat.setVisible(true);
+                    dispose();
+                }
             }
+
         } catch (Exception ex) {
             Logger.getLogger(NuevoChat.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Chat no creado",
+                    "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 

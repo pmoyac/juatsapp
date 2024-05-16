@@ -6,7 +6,6 @@ package Interfaces;
 
 import java.util.List;
 import objetos.Chat;
-import objetos.Mensaje;
 import org.bson.types.ObjectId;
 
 /**
@@ -16,25 +15,34 @@ import org.bson.types.ObjectId;
 public interface IChatDAO {
 
     /**
+     * Metodo que guarda el chat en la base de datos
      *
      * @param chat
-     * @return
+     * @return boolean
      */
     public boolean guardar(Chat chat);
-    
+
     /**
+     * Metodo que actualiza el chat en la base de datos
      *
      * @param chat
-     * @return
+     * @return boolean
      */
     public boolean actualizar(Chat chat);
-    
+
     /**
+     * Metodo que devuelve todos los chat del usuario desde la bd
      *
      * @param id
-     * @return
+     * @return List<Chat>
      */
     public List<Chat> buscarporID(ObjectId id);
     
-    
+    /**
+     * Metodo que elimina un chat
+     * @param c
+     * @return
+     */
+    public boolean eliminarChat(Chat c);
+
 }

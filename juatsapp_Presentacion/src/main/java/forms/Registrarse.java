@@ -32,6 +32,11 @@ public class Registrarse extends javax.swing.JFrame {
                     "Error", JOptionPane.ERROR_MESSAGE);
             return false;
         }
+        if (!this.txt_telefono.getText().matches("^[0-9]{10}$")) {
+            JOptionPane.showMessageDialog(null, "Teléfono solo acepta numeros de 10 caracteres",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
 
         return true;
     }

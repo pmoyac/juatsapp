@@ -22,13 +22,12 @@ import objetos.Usuario;
  */
 public class Mensajes extends javax.swing.JFrame {
 
-    private JList<String> messageList = null;
+    private final JList<String> messageList;
     private DefaultListModel<String> listModel;
 //    private final DefaultListModel<String> messageListModel;
     private Usuario us;
     private Chat chat;
     private IGestorChats gc;
-    private Timer timer;
 
     /**
      * Creates new form Chats
@@ -48,28 +47,17 @@ public class Mensajes extends javax.swing.JFrame {
         this.jPanel1.setPreferredSize(new Dimension(200, 250));
         // Inicializa el modelo de la lista de mensajes
 //        messageListModel = new DefaultListModel<>();
-        
-        
-        
-        int delay = 1000; // 5000 milisegundos = 5 segundos
-        timer = new Timer(delay, e -> {
-            try {
-                listModel = new DefaultListModel<>();
-                for (Mensaje mensaje : gc.buscarMensajesChat(chat)) {
-                    listModel.addElement(mensaje.toString());
-                }
-                
-                // Inicializa la lista de mensajes
-                messageList = new JList<>(listModel);
-                
-                // Agrega la lista de mensajes a un JScrollPane para permitir desplazamiento
-                JScrollPane scrollPane = new JScrollPane(messageList);
-                this.jPanel1.add(scrollPane, BorderLayout.CENTER);
-            } catch (Exception ex) {
-                Logger.getLogger(Mensajes.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        });
-        timer.start();
+        listModel = new DefaultListModel<>();
+        for (Mensaje mensaje : gc.buscarMensajesChat(chat)) {
+            listModel.addElement(mensaje.toString());
+        }
+
+        // Inicializa la lista de mensajes
+        messageList = new JList<>(listModel);
+
+        // Agrega la lista de mensajes a un JScrollPane para permitir desplazamiento
+        JScrollPane scrollPane = new JScrollPane(messageList);
+        this.jPanel1.add(scrollPane, BorderLayout.CENTER);
 
         System.out.println(chat.getTituloChat());
 
@@ -87,33 +75,16 @@ public class Mensajes extends javax.swing.JFrame {
         msj.setTelefono(us.getTelefono());
         msj.setAutor(us.getId());
 
-        // Construye el mensaje con la fecha, autor y texto del mensaje
-//        String formattedMessage = "[" + formattedDate + "] " + us.getTelefono() + ": " + msj.getMensaje();
-
-        // Agrega el mensaje al modelo de la lista
         listModel.addElement(msj.toString());
         if (!gc.agregarMsj(msj, chat)) {
             JOptionPane.showMessageDialog(null, "Error al agregar mensaje a la base de datos",
                     "Error", JOptionPane.ERROR_MESSAGE);
         }
 
-        System.out.println("Enviar");
+        
     }
 
-    public static void main(String args[]) {
-        // Crea y muestra el formulario
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    Chat c = new Chat();
-                    Usuario u = new Usuario();
-                    new Mensajes(u, c).setVisible(true);
-                } catch (Exception ex) {
-                    Logger.getLogger(Mensajes.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        });
-    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -131,8 +102,8 @@ public class Mensajes extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         lbl_titulo = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
         btn_regresar = new javax.swing.JButton();
+        btn_editar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -150,7 +121,7 @@ public class Mensajes extends javax.swing.JFrame {
         jLabel1.setIcon(new javax.swing.ImageIcon("C:\\Users\\Pedro\\Documents\\GitHub\\juatsapp\\juatsapp_Presentacion\\src\\main\\java\\recursos\\logo (1).png")); // NOI18N
 
         jLabel2.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel2.setText("Chat");
+        jLabel2.setText("Chat: ");
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(0, 0, 0), null));
@@ -169,13 +140,6 @@ public class Mensajes extends javax.swing.JFrame {
 
         lbl_titulo.setForeground(new java.awt.Color(0, 0, 0));
 
-        jButton1.setText("jButton1");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
         btn_regresar.setBackground(new java.awt.Color(204, 0, 0));
         btn_regresar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -183,23 +147,27 @@ public class Mensajes extends javax.swing.JFrame {
             }
         });
 
+        btn_editar.setBackground(new java.awt.Color(102, 153, 255));
+        btn_editar.setForeground(new java.awt.Color(0, 0, 0));
+        btn_editar.setText("Editar Chat");
+        btn_editar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_editarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jp_pLayout = new javax.swing.GroupLayout(jp_p);
         jp_p.setLayout(jp_pLayout);
         jp_pLayout.setHorizontalGroup(
             jp_pLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jp_pLayout.createSequentialGroup()
+            .addGroup(jp_pLayout.createSequentialGroup()
                 .addGroup(jp_pLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jp_pLayout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel1))
                     .addGroup(jp_pLayout.createSequentialGroup()
-                        .addGap(23, 23, 23)
-                        .addGroup(jp_pLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lbl_titulo)
-                            .addComponent(jButton1)
-                            .addGroup(jp_pLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(btn_regresar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                                .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                        .addGap(19, 19, 19)
+                        .addComponent(btn_editar, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jp_pLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jp_pLayout.createSequentialGroup()
@@ -208,30 +176,35 @@ public class Mensajes extends javax.swing.JFrame {
                         .addComponent(btn_enviar, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(12, 12, 12))
+            .addGroup(jp_pLayout.createSequentialGroup()
+                .addComponent(btn_regresar, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(123, 123, 123)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lbl_titulo, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jp_pLayout.setVerticalGroup(
             jp_pLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jp_pLayout.createSequentialGroup()
-                .addContainerGap()
+                .addGroup(jp_pLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btn_regresar, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jp_pLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(lbl_titulo, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel2)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jp_pLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jp_pLayout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jp_pLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btn_enviar, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txt_mensaje, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(txt_mensaje, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jp_pLayout.createSequentialGroup()
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(26, 26, 26)
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lbl_titulo)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btn_regresar, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton1)
-                        .addGap(31, 31, 31))))
+                        .addGap(29, 29, 29)
+                        .addComponent(btn_editar)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -251,21 +224,13 @@ public class Mensajes extends javax.swing.JFrame {
     private void btn_enviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_enviarActionPerformed
         try {
             this.addMessage();
-            
+            this.txt_mensaje.setText("");
+
         } catch (Exception ex) {
             Logger.getLogger(Mensajes.class.getName()).log(Level.SEVERE, null, ex);
         }
         this.jPanel1.repaint();
     }//GEN-LAST:event_btn_enviarActionPerformed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        try {
-            // TODO add your handling code here:
-            gc.buscarMensajesChat(this.chat);
-        } catch (Exception ex) {
-            Logger.getLogger(Mensajes.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_jButton1ActionPerformed
 
     private void btn_regresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_regresarActionPerformed
         try {
@@ -278,11 +243,17 @@ public class Mensajes extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btn_regresarActionPerformed
 
+    private void btn_editarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_editarActionPerformed
+        EditarChat c = new EditarChat(us, chat);
+        c.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_btn_editarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_editar;
     private javax.swing.JButton btn_enviar;
     private javax.swing.JButton btn_regresar;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;

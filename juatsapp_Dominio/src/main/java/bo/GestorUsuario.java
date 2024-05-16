@@ -38,7 +38,7 @@ public class GestorUsuario implements IGestorUsuario {
 
     @Override
     public Usuario editarUsuarioBo(Usuario usuario) throws Exception {
-        try {
+        try {                                                
             udao.actualizar(usuario);
             return usuario;
         } catch (Exception e) {

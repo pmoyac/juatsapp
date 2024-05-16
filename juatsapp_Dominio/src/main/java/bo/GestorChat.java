@@ -18,7 +18,7 @@ import org.bson.types.ObjectId;
 public class GestorChat implements IGestorChats {
 
     IChatDAO cdao = new ChatDAO();
-    
+
     IMensajesDAO msjdao = new MensajesDAO();
 
     @Override
@@ -30,20 +30,31 @@ public class GestorChat implements IGestorChats {
     }
 
     @Override
-    public void eliminarChat(Chat chat) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public boolean eliminarChat(Chat chat) throws Exception {
+        try {
+            cdao.eliminarChat(chat);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     @Override
-    public void editarChat(Chat chat) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public boolean editarChat(Chat chat) throws Exception {
+        try {
+            cdao.actualizar(chat);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+        
     }
 
     @Override
     public boolean agregarMsj(Mensaje msj, Chat chat) throws Exception {
         try {
             msjdao.guardar(msj);
-            
+
             List<ObjectId> msjs = chat.getMensajes();
             msjs.add(msj.getId());
 
@@ -60,11 +71,9 @@ public class GestorChat implements IGestorChats {
     public List<Mensaje> buscarMensajesChat(Chat chat) throws Exception {
         try {
             List<Mensaje> msjs = msjdao.buscarMensajes(chat);
-            System.out.println("Gestor de chat");
-            System.out.println(msjs.toString());
-            
+
             return msjs;
-            
+
         } catch (Exception e) {
             return null;
         }
@@ -79,12 +88,5 @@ public class GestorChat implements IGestorChats {
             return null;
         }
     }
-    
-    
-
- 
-    
-
-  
 
 }
